@@ -59,3 +59,4 @@ git push
 - `build/`, `install/`, `log/`는 커밋하지 않는다.
 - 비밀번호, PAT, API 키, 개인 `.env` 파일을 커밋하지 않는다.
 - 대용량 영상은 GitHub 용량 정책 확인 후 Git LFS 또는 별도 공유 저장소를 사용한다.
+# rokey_cobot3
