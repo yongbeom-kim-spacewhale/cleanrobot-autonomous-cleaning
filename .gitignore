@@ -1,69 +1,10 @@
-# ROS 2 / colcon: workspace-root generated files only
-/build/
-/install/
-/log/
-/.colcon/
-/compile_commands.json
-
-# ROS runtime state and recordings
-.ros/
-rosbag2_*/
-*.db3
-*.mcap
-
-# Python
+build/
+install/
+log/
 __pycache__/
-*.py[cod]
-*$py.class
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.coverage
-htmlcov/
-
-# Python virtual environments
-.venv/
-venv/
-env/
-
-# Isaac Sim / Omniverse local installation and generated state
-/isaac-sim/
-/.cache/
-/.nvidia-omniverse/
-/.kit/
-*.log
-
-# Keep project assets and source:
-# Do not ignore *.usd, *.usda, *.usdc, *.urdf, meshes/, data/, kit/, or ext*/
-
-# VS Code: ignore local state; allow intentional team configs
-.vscode/*
-!.vscode/extensions.json
-!.vscode/tasks.json
-!.vscode/launch.json
-.history/
-
-# JetBrains and editor temporary files
-.idea/
-*.swp
-*.swo
-*~
-
-# OS metadata
-.DS_Store
-Thumbs.db
-
-# Local configuration and secrets
-.env
-.env.*
-!.env.example
-*.pem
-*.key
-*.p12
-*.pfx
-
-# Temporary files
-/tmp/
-/temp/
-*.tmp
-*.bak
+*.pyc
+*.usd
+.claude/
+*.onnx
+*.pt
+*.pth
