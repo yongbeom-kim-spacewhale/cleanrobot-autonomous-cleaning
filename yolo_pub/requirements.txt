@@ -1,0 +1,5 @@
+# CUDA-enabled PyTorch는 GPU/드라이버/CUDA 조합에 맞춰 먼저 설치한다.
+# torch를 명시하지 않아, 이미 설치한 CUDA용 torch를 pip가 CPU 빌드로 바꾸지 않는다.
+ultralytics>=8.3,<9
+numpy>=1.23,<3
+opencv-python>=4.5,<5
