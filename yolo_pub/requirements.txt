@@ -1,5 +1,0 @@
-# CUDA-enabled PyTorch는 시스템 GPU/CUDA 버전에 맞춰 별도로 설치한다.
-# 아래 목록에는 torch를 넣지 않아 pip가 기존 CUDA PyTorch를 바꾸지 않도록 한다.
-ultralytics>=8.3.0
-numpy>=1.23.0
-opencv-python>=4.5.0
