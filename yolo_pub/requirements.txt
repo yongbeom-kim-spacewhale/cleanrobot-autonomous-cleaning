@@ -1,6 +1,0 @@
-# Python 3.10 기준 runtime 의존성.
-# CUDA-enabled PyTorch는 GPU/드라이버/CUDA 조합에 맞춰 별도로 먼저 설치.
-# torch를 여기에 넣지 않아 pip가 기존 CUDA용 torch를 CPU 빌드로 교체하지 않음.
-ultralytics>=8.3,<9
-numpy>=1.23,<3
-opencv-python>=4.5,<5
