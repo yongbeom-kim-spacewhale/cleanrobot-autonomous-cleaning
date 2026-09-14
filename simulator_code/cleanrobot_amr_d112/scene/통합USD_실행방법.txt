@@ -1,0 +1,34 @@
+[개인 PC 통합 USD 실행]
+
+Isaac Sim에서 아래 파일을 직접 연다:
+/mnt/isaacsim/park_env/ParkEnvironment_IsaacSim5.1_HighPerformance_20260802/Integrated_CleanRobot_Personal_D112/CleanRobot_Park.usda
+
+1. 기존 Nav2와 Isaac Timeline을 모두 정지한다.
+2. 위 USDA를 File > Open으로 연다.
+3. Stage 로딩이 끝난 뒤 PLAY를 누른다.
+4. 새 터미널에서 아래를 실행한다.
+
+cd /mnt/isaacsim/cobot3_ws
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+export ROS_DOMAIN_ID=112
+ros2 launch park_amr_navigation park_navigation_clean_personal_filtered.launch.py
+
+확인:
+ros2 topic info /clock
+ros2 topic info /odom
+ros2 topic info /cobot3/front/scan_unfiltered
+ros2 topic info /cobot3/front/scan
+ros2 topic info /joint_states
+ros2 topic info /robot_arm/joint_command
+
+TF 확인:
+ros2 run tf2_ros tf2_echo odom tf_amr
+ros2 run tf2_ros tf2_echo tf_amr chassis_link
+ros2 run tf2_ros tf2_echo chassis_link base_link
+ros2 run tf2_ros tf2_echo base_link tf_robotarm
+
+주의:
+- PLAY 중에는 USDA를 저장하지 않는다.
+- 기존 USD를 동시에 열거나 기존 Nav2 launch를 동시에 실행하지 않는다.
+- Isaac subscriber 확인 전에는 로봇팔 명령을 보내지 않는다.
