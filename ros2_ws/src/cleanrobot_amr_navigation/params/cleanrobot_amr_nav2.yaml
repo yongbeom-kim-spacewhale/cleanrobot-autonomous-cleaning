@@ -1,0 +1,423 @@
+# CleanRobot AMR Nav2 integration parameters
+# 공원 순찰 AMR v3용 Nav2 params (Cobot3 신로봇) (Keepout Filter 포함)
+# CleanRobot (2D front/rear LiDAR: /cobot3/front,/cobot3/rear ; odom=/odom) + 공원 맵
+
+amcl:
+  ros__parameters:
+    use_sim_time: True
+    alpha1: 0.2
+    alpha2: 0.2
+    alpha3: 0.2
+    alpha4: 0.2
+    alpha5: 0.2
+    base_frame_id: "tf_amr"
+    beam_skip_distance: 0.5
+    beam_skip_error_threshold: 0.9
+    beam_skip_threshold: 0.3
+    do_beamskip: false
+    global_frame_id: "map"
+    lambda_short: 0.1
+    laser_likelihood_max_dist: 2.0
+    laser_max_range: 30.0
+    laser_min_range: 0.05
+    laser_model_type: "likelihood_field"
+    max_beams: 360
+    max_particles: 2000
+    min_particles: 500
+    odom_frame_id: "odom"
+    pf_err: 0.05
+    pf_z: 0.99
+    recovery_alpha_fast: 0.0
+    recovery_alpha_slow: 0.0
+    resample_interval: 3
+    robot_model_type: "nav2_amcl::DifferentialMotionModel"
+    save_pose_rate: 0.5
+    sigma_hit: 0.2
+    tf_broadcast: false
+    transform_tolerance: 0.25
+    update_min_a: 0.1
+    update_min_d: 0.15
+    z_hit: 0.5
+    z_max: 0.05
+    z_rand: 0.5
+    z_short: 0.05
+    scan_topic: /cobot3/front/scan
+    map_topic: map
+    set_initial_pose: true
+    always_reset_initial_pose: true
+    first_map_only: false
+    initial_pose:
+      x: 1.6175898173585577
+      y: -19.045652432754707
+      z: 0.0
+      yaw: 1.5708
+
+amcl_map_client:
+  ros__parameters:
+    use_sim_time: True
+
+amcl_rclcpp_node:
+  ros__parameters:
+    use_sim_time: True
+
+bt_navigator:
+  ros__parameters:
+    use_sim_time: True
+    global_frame: map
+    robot_base_frame: tf_amr
+    odom_topic: /odom
+    bt_loop_duration: 20
+    default_server_timeout: 40
+    plugin_lib_names:
+    - nav2_compute_path_to_pose_action_bt_node
+    - nav2_compute_path_through_poses_action_bt_node
+    - nav2_smooth_path_action_bt_node
+    - nav2_follow_path_action_bt_node
+    - nav2_spin_action_bt_node
+    - nav2_wait_action_bt_node
+    - nav2_back_up_action_bt_node
+    - nav2_drive_on_heading_bt_node
+    - nav2_clear_costmap_service_bt_node
+    - nav2_is_stuck_condition_bt_node
+    - nav2_goal_reached_condition_bt_node
+    - nav2_goal_updated_condition_bt_node
+    - nav2_globally_updated_goal_condition_bt_node
+    - nav2_is_path_valid_condition_bt_node
+    - nav2_initial_pose_received_condition_bt_node
+    - nav2_reinitialize_global_localization_service_bt_node
+    - nav2_rate_controller_bt_node
+    - nav2_distance_controller_bt_node
+    - nav2_speed_controller_bt_node
+    - nav2_truncate_path_action_bt_node
+    - nav2_truncate_path_local_action_bt_node
+    - nav2_goal_updater_node_bt_node
+    - nav2_recovery_node_bt_node
+    - nav2_pipeline_sequence_bt_node
+    - nav2_round_robin_node_bt_node
+    - nav2_transform_available_condition_bt_node
+    - nav2_time_expired_condition_bt_node
+    - nav2_path_expiring_timer_condition
+    - nav2_distance_traveled_condition_bt_node
+    - nav2_single_trigger_bt_node
+    - nav2_goal_updated_controller_bt_node
+    - nav2_is_battery_low_condition_bt_node
+    - nav2_navigate_through_poses_action_bt_node
+    - nav2_navigate_to_pose_action_bt_node
+    - nav2_remove_passed_goals_action_bt_node
+    - nav2_planner_selector_bt_node
+    - nav2_controller_selector_bt_node
+    - nav2_goal_checker_selector_bt_node
+    - nav2_controller_cancel_bt_node
+    - nav2_path_longer_on_approach_bt_node
+    - nav2_wait_cancel_bt_node
+    - nav2_spin_cancel_bt_node
+    - nav2_back_up_cancel_bt_node
+    - nav2_drive_on_heading_cancel_bt_node
+
+bt_navigator_rclcpp_node:
+  ros__parameters:
+    use_sim_time: True
+
+controller_server:
+  ros__parameters:
+    use_sim_time: True
+    controller_frequency: 20.0
+    min_x_velocity_threshold: 0.001
+    min_y_velocity_threshold: 0.5
+    min_theta_velocity_threshold: 0.001
+    failure_tolerance: 0.3
+    progress_checker_plugin: "progress_checker"
+    goal_checker_plugin: ["stopped_goal_checker"]
+    controller_plugins: ["FollowPath"]
+
+    progress_checker:
+      plugin: "nav2_controller::SimpleProgressChecker"
+      required_movement_radius: 0.5
+      movement_time_allowance: 10.0
+
+    stopped_goal_checker:
+      plugin: "nav2_controller::StoppedGoalChecker"
+      xy_goal_tolerance: 0.15
+      yaw_goal_tolerance: 0.25
+      trans_stopped_velocity: 0.25
+      rot_stopped_velocity: 0.25
+
+    FollowPath:
+      plugin: "dwb_core::DWBLocalPlanner"
+      debug_trajectory_details: True
+      min_vel_x: 0.0
+      min_vel_y: 0.0
+      max_vel_x: 1.5
+      max_vel_y: 0.0
+      max_vel_theta: 1.0
+      min_speed_xy: 0.0
+      max_speed_xy: 1.5
+      min_speed_theta: 0.0
+      acc_lim_x: 3.0
+      acc_lim_y: 0.0
+      acc_lim_theta: 3.2
+      decel_lim_x: -2.5
+      decel_lim_y: 0.0
+      decel_lim_theta: -3.2
+      vx_samples: 20
+      vy_samples: 5
+      vtheta_samples: 40
+      sim_time: 1.2
+      linear_granularity: 0.05
+      angular_granularity: 0.025
+      transform_tolerance: 0.2
+      xy_goal_tolerance: 0.15
+      trans_stopped_velocity: 0.25
+      short_circuit_trajectory_evaluation: True
+      stateful: True
+      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
+      BaseObstacle.scale: 0.02
+      PathAlign.scale: 64.0
+      PathAlign.forward_point_distance: 0.1
+      GoalAlign.scale: 24.0
+      GoalAlign.forward_point_distance: 0.1
+      PathDist.scale: 64.0
+      GoalDist.scale: 24.0
+      RotateToGoal.scale: 20.0
+      RotateToGoal.slowing_factor: 5.0
+      RotateToGoal.lookahead_time: -1.0
+
+local_costmap:
+  local_costmap:
+    ros__parameters:
+      update_frequency: 10.0
+      publish_frequency: 5.0
+      footprint_padding: 0.03
+      global_frame: odom
+      robot_base_frame: tf_amr
+      use_sim_time: True
+      rolling_window: True
+      width: 10
+      height: 10
+      resolution: 0.05
+      transform_tolerance: 0.5
+      footprint: "[ [0.68, 0.53], [0.68, -0.53], [-0.98, -0.53], [-0.98, 0.53] ]"
+      plugins: ["front_lidar_layer", "back_lidar_layer", "inflation_layer"]
+      filters: ["keepout_filter"]
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        enabled: True
+        cost_scaling_factor: 2.5
+        inflation_radius: 0.55
+      keepout_filter:
+        plugin: "nav2_costmap_2d::KeepoutFilter"
+        enabled: True
+        filter_info_topic: "costmap_filter_info"
+      front_lidar_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+        enabled: True
+        footprint_clearing_enabled: True
+        observation_sources: scan
+        scan:
+          topic: /cobot3/front/scan
+          sensor_frame: front_lidar_link
+          max_obstacle_height: 2.0
+          min_obstacle_height: 0.05
+          clearing: True
+          marking: True
+          data_type: "LaserScan"
+          raytrace_max_range: 10.0
+          raytrace_min_range: 0.0
+          obstacle_max_range: 8.0
+          obstacle_min_range: 0.0
+          expected_update_rate: 0.25
+          observation_persistence: 0.0
+          inf_is_valid: True
+      back_lidar_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+        enabled: True
+        footprint_clearing_enabled: True
+        observation_sources: scan
+        scan:
+          topic: /cobot3/rear/scan
+          sensor_frame: rear_lidar_link
+          max_obstacle_height: 2.0
+          min_obstacle_height: 0.05
+          clearing: True
+          marking: True
+          data_type: "LaserScan"
+          raytrace_max_range: 10.0
+          raytrace_min_range: 0.0
+          obstacle_max_range: 8.0
+          obstacle_min_range: 0.0
+          expected_update_rate: 0.1
+          observation_persistence: 0.0
+          inf_is_valid: True
+  local_costmap_client:
+    ros__parameters:
+      use_sim_time: True
+  local_costmap_rclcpp_node:
+    ros__parameters:
+      use_sim_time: True
+
+global_costmap:
+  global_costmap:
+    ros__parameters:
+      footprint_padding: 0.03
+      update_frequency: 2.0
+      publish_frequency: 2.0
+      global_frame: map
+      robot_base_frame: tf_amr
+      use_sim_time: True
+      footprint: "[ [0.68, 0.53], [0.68, -0.53], [-0.98, -0.53], [-0.98, 0.53] ]"
+      resolution: 0.05
+      transform_tolerance: 1.0
+      track_unknown_space: false
+      plugins: ["static_layer", "front_lidar_layer", "back_lidar_layer", "inflation_layer"]
+      filters: ["keepout_filter"]
+      front_lidar_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+        enabled: True
+        footprint_clearing_enabled: True
+        observation_sources: scan
+        scan:
+          topic: /cobot3/front/scan
+          sensor_frame: front_lidar_link
+          max_obstacle_height: 2.0
+          min_obstacle_height: 0.05
+          clearing: True
+          marking: True
+          data_type: "LaserScan"
+          raytrace_max_range: 10.0
+          raytrace_min_range: 0.0
+          obstacle_max_range: 8.0
+          obstacle_min_range: 0.0
+          expected_update_rate: 0.1
+          observation_persistence: 0.0
+          inf_is_valid: True
+      back_lidar_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+        enabled: True
+        footprint_clearing_enabled: True
+        observation_sources: scan
+        scan:
+          topic: /cobot3/rear/scan
+          sensor_frame: rear_lidar_link
+          max_obstacle_height: 2.0
+          min_obstacle_height: 0.05
+          clearing: True
+          marking: True
+          data_type: "LaserScan"
+          raytrace_max_range: 10.0
+          raytrace_min_range: 0.0
+          obstacle_max_range: 8.0
+          obstacle_min_range: 0.0
+          expected_update_rate: 0.1
+          observation_persistence: 0.0
+          inf_is_valid: True
+      static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
+        map_subscribe_transient_local: True
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        cost_scaling_factor: 2.5
+        inflation_radius: 0.55
+      keepout_filter:
+        plugin: "nav2_costmap_2d::KeepoutFilter"
+        enabled: True
+        filter_info_topic: "costmap_filter_info"
+  global_costmap_client:
+    ros__parameters:
+      use_sim_time: True
+  global_costmap_rclcpp_node:
+    ros__parameters:
+      use_sim_time: True
+
+map_server:
+  ros__parameters:
+    use_sim_time: True
+    yaml_filename: "cleanrobot_park_map.yaml"
+
+map_saver:
+  ros__parameters:
+    use_sim_time: True
+    save_map_timeout: 5.0
+    free_thresh_default: 0.196
+    occupied_thresh_default: 0.65
+    map_subscribe_transient_local: True
+
+planner_server:
+  ros__parameters:
+    expected_planner_frequency: 20.0
+    use_sim_time: True
+    planner_plugins: ["GridBased"]
+    GridBased:
+      plugin: "nav2_navfn_planner/NavfnPlanner"
+      tolerance: 0.5
+      use_astar: false
+      allow_unknown: true
+
+planner_server_rclcpp_node:
+  ros__parameters:
+    use_sim_time: True
+
+behavior_server:
+  ros__parameters:
+    costmap_topic: local_costmap/costmap_raw
+    footprint_topic: local_costmap/published_footprint
+    cycle_frequency: 10.0
+    behavior_plugins: ["spin", "backup", "drive_on_heading", "wait"]
+    spin:
+      plugin: "nav2_behaviors/Spin"
+    backup:
+      plugin: "nav2_behaviors/BackUp"
+    drive_on_heading:
+      plugin: "nav2_behaviors/DriveOnHeading"
+    wait:
+      plugin: "nav2_behaviors/Wait"
+    global_frame: odom
+    robot_base_frame: tf_amr
+    transform_tolerance: 0.1
+    use_sim_time: true
+    simulate_ahead_time: 2.0
+    max_rotational_vel: 1.0
+    min_rotational_vel: 0.4
+    rotational_acc_lim: 3.2
+
+waypoint_follower:
+  ros__parameters:
+    loop_rate: 20
+    stop_on_failure: false
+    waypoint_task_executor_plugin: "wait_at_waypoint"
+    wait_at_waypoint:
+      plugin: "nav2_waypoint_follower::WaitAtWaypoint"
+      enabled: True
+      waypoint_pause_duration: 200
+
+velocity_smoother:
+  ros__parameters:
+    use_sim_time: True
+    smoothing_frequency: 20.0
+    scale_velocities: False
+    feedback: "OPEN_LOOP"
+    max_velocity: [1.5, 0.0, 1.0]
+    min_velocity: [-0.8, 0.0, -1.0]
+    max_accel: [3.0, 0.0, 3.2]
+    max_decel: [-2.5, 0.0, -3.2]
+    odom_topic: "/odom"
+    odom_duration: 0.1
+    deadband_velocity: [0.0, 0.0, 0.0]
+    velocity_timeout: 1.0
+
+# Keepout Mask Server (금지구역 마스크 지도 발행)
+filter_mask_server:
+  ros__parameters:
+    use_sim_time: True
+    frame_id: "map"
+    topic_name: "keepout_filter_mask"
+    yaml_filename: "cleanrobot_keepout_mask.yaml"
+
+# Costmap Filter Info Server (필터 타입/파라미터 정보 발행)
+costmap_filter_info_server:
+  ros__parameters:
+    use_sim_time: True
+    type: 0
+    filter_info_topic: "costmap_filter_info"
+    mask_topic: "keepout_filter_mask"
+    base: 0.0
+    multiplier: 1.0

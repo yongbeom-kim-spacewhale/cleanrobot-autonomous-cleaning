@@ -1,0 +1,6 @@
+# 통합 Isaac/AMR PC에는 별도 pip 의존성이 없다.
+# numpy, pxr, omni, isaacsim은 Isaac Sim 5.1.0 내장 환경을 사용한다.
+#
+# 외부 비전 PC의 Python 의존성:
+# CUDA 지원 PyTorch는 GPU·드라이버·CUDA 조합에 맞춰 먼저 별도 설치한다.
+-r external_vision_ws/src/yolo_pub/requirements.txt
